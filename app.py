@@ -1,4 +1,4 @@
-from flask import Flask, render_template,url_for,request,redirect
+from flask import Flask, render_template,url_for,request,redirect,jsonify
 from flask_sqlalchemy import SQLAlchemy as sql
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -39,7 +39,7 @@ def index():
             db.create_all()
             db.session.add(obj)
             db.session.commit()
-            
+            jsonify({"message":"a","id":obj.id})
             return render_template('index.html')
         except:
             return "error"
