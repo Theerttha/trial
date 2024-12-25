@@ -13,9 +13,7 @@
             <div class="reg" id="reg">
                 <h class="reg_text">Enter username</h>
                 <input type="text" class="reg_input" name="user_register" id="user_register">
-                {% if reg_exists==True %}
-                    <h class="exists_message">Username exists</h>
-                {%endif%}
+
                 {% if reg_user_exists==True %}
                     <h class="exists_message">
                         Username exists
@@ -23,16 +21,7 @@
                 {%endif%}
                 <h class="reg_text">Enter Password</h>
                 <input type="'text" class="reg_input" name="password_register" id="password_register">
-                {% if reg_exists==True %}
-                    <h class="exists_message">
-                        Password exists
-                    </h>
-                {%endif%}
-                {% if reg_password_exists==True %}
-                    <h class="exists_message">
-                        Password exists
-                    </h>
-                {%endif%}
+
                 <button class="registerin" onclick="window.location.href='/';">
                     REGISTER
                 </button>

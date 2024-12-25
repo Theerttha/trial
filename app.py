@@ -28,15 +28,12 @@ def index():
         user_reg=request.form['user_register']
         pass_word_reg=request.form['password_register']
         users=data.query.all()
-        reg_exists=False
+        reg_user_exists=False
         for i in users:
             if i.username==user_reg:
-                if i.password==pass_word_reg:
-                    return render_template('register.html',reg_exists=True)
-                else:
-                    return render_template('register.html',reg_user_exists=True)
-            if i.password==pass_word_reg:
-                return render_template('register.html',reg_password_exists=True)
+
+                return render_template('register.html',reg_user_exists=True)
+
         obj=data(username=user_reg, password=pass_word_reg)
         try:
             db.create_all()
