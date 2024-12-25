@@ -36,7 +36,7 @@ def index():
 
         obj=data(username=user_reg, password=pass_word_reg)
         try:
-            db.create_all()
+            
             db.session.add(obj)
             db.session.commit()
             jsonify({"message":"a","id":obj.id})
