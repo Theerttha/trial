@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Jua&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+        <script src="{{url_for('static',filename='js/script.js')}}">
+        </script>
+    </head>
+    <body class="body_reg">
+        
+        <form action="/register" method="POST">
+            <div class="reg" id="reg">
+                <h class="reg_text">Enter username</h>
+                <input type="text" class="reg_input" name="user_register" id="user_register">
+                {% if reg_exists==True %}
+                    <h class="exists_message">Username exists</h>
+                {%endif%}
+                {% if reg_user_exists==True %}
+                    <h class="exists_message">
+                        Username exists
+                    </h>
+                {%endif%}
+                <h class="reg_text">Enter Password</h>
+                <input type="'text" class="reg_input" name="password_register" id="password_register">
+                {% if reg_exists==True %}
+                    <h class="exists_message">
+                        Password exists
+                    </h>
+                {%endif%}
+                {% if reg_password_exists==True %}
+                    <h class="exists_message">
+                        Password exists
+                    </h>
+                {%endif%}
+                <button class="registerin" onclick="window.location.href='/';">
+                    REGISTER
+                </button>
+            </div>
+        </form>
+        
+       
+    </body>
+</html>
