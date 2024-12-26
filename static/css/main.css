@@ -32,10 +32,8 @@ body{
     letter-spacing: 3px;
 }
 .login,.registerin{
-
     background-color: #89CFF0;
     justify-self: center;
-
     margin-bottom: 20px;
     font-family: Jua;
     font-size: 30px;
@@ -44,6 +42,13 @@ body{
     padding-left: 20px;
     padding-right: 20px;
    
+}
+.register_button_text{
+    font-family: Jua;
+    font-size: 30px;
+    color: black;
+   
+
 }
 .exists_message{
     font-size:20px;

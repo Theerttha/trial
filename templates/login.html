@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block content %}
+    <form action="/" method="POST">
+        <div class="main" id="main">
+            <label class="text_login">Enter username</label>
+            <input type="text" class="input_login" name="user" id="user">
+            <h class="text_login">Enter password</h>
+            <input type="'text" class="input_login" name="password" id="password">
+            <button class="login">
+                LOG IN
+            </button>
+        </div>
+
+    </form>
+    <div class="register_box">
+        <div class="register_text_box">
+            <h class="register_text">Not already registered?<br>Click below to register<br></h>
+
+        </div>
+        <div class="register_button_box">
+            <button class="register_button">
+                <a class="register_button_text" href="/register">
+                    REGISTER
+                </a>
+                
+            </button>
+
+        </div>
+        
+
+    </div>
+{% endblock %}
+        
