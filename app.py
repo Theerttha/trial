@@ -1,54 +1,66 @@
-from flask import Flask, render_template,url_for,request,redirect
-from flask_sqlalchemy import SQLAlchemy as sql
-app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+from flask import Flask, render_template, url_for, request, redirect
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+app = Flask(__name__)
+
+# Database configuration
+if os.environ.get('RENDER'):  # Running on Render
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url and database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db=sql(app)
-db.init_app(app)
-class data(db.Model):
-    id=db.Column(db.Integer, primary_key = True)
-    username=db.Column(db.String(30))
-    password=db.Column(db.String(100))
+
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
-        return '<Task %r>' % self.id
-@app.route('/',methods=['POST','GET'])
+        return f'<User {self.username}>'
+
+@app.route('/', methods=['POST', 'GET'])
 def login():
-    if request.method=='POST':
-        user_name=request.form['user']
-        pass_word=request.form['password']
-        users=data.query.all()
-        print(users)
-        for i in users:
-            if i.username==user_name and i.password==pass_word:
-                return "yes"
+    if request.method == 'POST':
+        user_name = request.form['user']
+        pass_word = request.form['password']
+        
+        user = User.query.filter_by(username=user_name, password=pass_word).first()
+        if user:
+            return "yes"
     return render_template('login.html')
-@app.route('/register',methods=['POST','GET'],endpoint='register')
+
+@app.route('/register', methods=['POST', 'GET'])
 def register():
-    print("xxx")
-    if request.method=='POST':
-        print("yyy")
-        user_reg=request.form['user_register']
-        pass_word_reg=request.form['password_register']
-        users=data.query.all()
-        reg_user_exists=False
-        print("inside register")
-        for i in users:
-            print(i.username)
-            if i.username==user_reg:
+    if request.method == 'POST':
+        user_reg = request.form['user_register']
+        pass_word_reg = request.form['password_register']
+        
+        existing_user = User.query.filter_by(username=user_reg).first()
+        if existing_user:
+            return render_template('register.html', reg_user_exists=True)
 
-                return render_template('register.html',reg_user_exists=True)
-
-
-        obj=data(username=user_reg, password=pass_word_reg)
+        new_user = User(username=user_reg, password=pass_word_reg)
         try:
-        
-            db.session.add(obj)
+            db.session.add(new_user)
             db.session.commit()
-        
             return render_template('login.html')
-        except:
+        except Exception as e:
+            db.session.rollback()
             return "error"
+
     return render_template('register.html')
-if __name__=="__main__":
+
+def init_db():
+    with app.app_context():
+        db.create_all()
+
+if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
